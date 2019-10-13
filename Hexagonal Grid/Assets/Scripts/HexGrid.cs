@@ -55,6 +55,25 @@ public class HexGrid : MonoBehaviour
             new Vector2(position.x, position.z);
         //label.text = x.ToString() + "\n" + z.ToString();
         label.text = cell.coordinates.ToStringOnSeparateLines();
+
+        if (x > 0) {
+            cell.SetNeighbor(HexDirection.W, cells[i - 1]);
+        }
+
+        if (z > 0) {
+            if ((z & 1) == 0) {
+                cell.SetNeighbor(HexDirection.SE, cells[i - width]);
+                if (x > 0) {
+                    cell.SetNeighbor(HexDirection.SW, cells[i - width - 1]);
+                }
+            }
+            else {
+                cell.SetNeighbor(HexDirection.SW, cells[i - width]);
+                if (x < width - 1) {
+                    cell.SetNeighbor(HexDirection.SE, cells[i - width + 1]);
+                }
+            }
+        }
     }
 
     public void ColorCell(Vector3 position, Color color)
